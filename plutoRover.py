@@ -1,8 +1,9 @@
 class plutoRover:
-    def __init__(self, position, command, grid):
+    def __init__(self, position, command, grid, collision):
         self.position = position
         self.command = command
         self.grid = grid
+        self.collision = collision
 
     def moveForward(self, direction, x, y):
         if direction == "N":
@@ -83,6 +84,7 @@ class plutoRover:
             "R"
         }
 
+
         error = ""
         finalPosition = ()
 
@@ -92,10 +94,14 @@ class plutoRover:
                     if command[pointer] == "F":
                         x, y, direction =  self.moveForward(direction, x, y)
                         pointer += 1
+                        if (x, y) == self.collision:
+                            return "Collision at: " + str(self.collision)
                         self.auth(command, direction, x, y, pointer)
                     elif command[pointer] == "B":
                         x, y, direction = self.moveBackward(direction, x, y)
                         pointer += 1
+                        if (x, y) == self.collision:
+                            return "Collision at: " + str(self.collision)
                         self.auth(command, direction, x, y, pointer)
                     elif command[pointer] == "L":
                         direction = self.rotateLeft(direction)
@@ -135,4 +141,4 @@ class plutoRover:
         return self.auth(command, currentDir, x, y, 0)
             
 
-print(plutoRover([0, 0, "N"], "BBLFF", [100, 100]).main())
+print(plutoRover([0, 0, "E"], "FFFFLFFFFF", [100, 100], (4, 5)).main())
