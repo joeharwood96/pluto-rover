@@ -41,7 +41,17 @@ class plutoRover:
         return direction
     
 
-    # def rotateRight(self, direction):
+    def rotateRight(self, direction):
+        if direction == "N":
+            direction = "E"
+        elif direction == "S":
+            direction = "W"
+        elif direction == "E":
+            direction = "S"
+        else:
+            direction = "N"
+
+        return direction
     
 
     # def checkEdges(self, grid, finalPosition):
@@ -73,6 +83,9 @@ class plutoRover:
                 elif command == "L":
                     direction = self.rotateLeft(direction)
                     finalPosition = (x, y, direction)
+                else:
+                    direction = self.rotateRight(direction)
+                    finalPosition = (x, y, direction)
 
         return finalPosition
     
@@ -91,4 +104,4 @@ class plutoRover:
         return self.auth(command, currentDir, x, y)
             
 
-print(plutoRover([0, 0, "E"], "L", [100, 100]).main())
+print(plutoRover([0, 0, "E"], "R", [100, 100]).main())

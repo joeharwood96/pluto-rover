@@ -17,6 +17,9 @@ class TestPlutoRover(unittest.TestCase):
 
     def test_leftRotation(self):
         self.assertEqual(plutoRover([0, 0, "E"], "L", [100, 100]).main(), (0, 0, 'N'))
+
+    def test_rightRotation(self):
+        self.assertEqual(plutoRover([0, 0, "E"], "R", [100, 100]).main(), (0, 0, 'S'))
     
 
 if __name__ == '__main__':
