@@ -28,7 +28,17 @@ class plutoRover:
 
         return x, y, direction
 
-    # def rotateLeft(self, direction):
+    def rotateLeft(self, direction):
+        if direction == "N":
+            direction = "W"
+        elif direction == "S":
+            direction = "E"
+        elif direction == "E":
+            direction = "N"
+        else:
+            direction = "S"
+
+        return direction
     
 
     # def rotateRight(self, direction):
@@ -60,6 +70,9 @@ class plutoRover:
                 elif command == "B":
                     x, y, direction = self.moveBackward(direction, x, y)
                     finalPosition = (x, y, direction)
+                elif command == "L":
+                    direction = self.rotateLeft(direction)
+                    finalPosition = (x, y, direction)
 
         return finalPosition
     
@@ -78,4 +91,4 @@ class plutoRover:
         return self.auth(command, currentDir, x, y)
             
 
-print(plutoRover([2, 0, "E"], "B", [100, 100]).main())
+print(plutoRover([0, 0, "E"], "L", [100, 100]).main())
