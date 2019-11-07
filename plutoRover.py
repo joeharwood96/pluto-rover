@@ -72,6 +72,8 @@ class plutoRover:
             "R"
         }
 
+        error = ""
+
         if direction is not None and command is not None:
             if direction in direc and command in com:
                 if command == "F":
@@ -86,8 +88,15 @@ class plutoRover:
                 else:
                     direction = self.rotateRight(direction)
                     finalPosition = (x, y, direction)
+            elif direction not in direc:
+                error = "Sorry, direction not found: " + direction 
+            else:
+                error = "Sorry, command not found: " + command
 
-        return finalPosition
+        if error:
+            return error
+        else:
+            return finalPosition
     
          
     def main(self):
@@ -104,4 +113,4 @@ class plutoRover:
         return self.auth(command, currentDir, x, y)
             
 
-print(plutoRover([0, 0, "E"], "R", [100, 100]).main())
+print(plutoRover([0, 0, "U"], "F", [100, 100]).main())

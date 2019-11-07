@@ -21,6 +21,10 @@ class TestPlutoRover(unittest.TestCase):
     def test_rightRotation(self):
         self.assertEqual(plutoRover([0, 0, "E"], "R", [100, 100]).main(), (0, 0, 'S'))
     
+    def test_Errors(self):
+        self.assertEqual(plutoRover([0, 0, "N"], "T", [100, 100]).main(), "Sorry, command not found: T")
+        self.assertEqual(plutoRover([0, 0, "T"], "F", [100, 100]).main(), "Sorry, direction not found: T")
+
 
 if __name__ == '__main__':
     unittest.main()
