@@ -54,7 +54,18 @@ class plutoRover:
         return direction
     
 
-    # def checkEdges(self, grid, finalPosition):
+    def checkEdges(self, grid, x, y, direction):
+        if x > grid[0]:
+            x = x - grid[0]
+        elif x < 0:
+            x = x + grid[0]
+        
+        if y > grid[1]:
+            y = y - grid[1]
+        if y < 0:
+            y = y + grid[0]
+
+        return (x, y, direction)
 
 
     def auth(self, command, direction, x, y, pointer):
@@ -80,32 +91,31 @@ class plutoRover:
                 if direction in direc and command[pointer] in com:
                     if command[pointer] == "F":
                         x, y, direction =  self.moveForward(direction, x, y)
-                        finalPosition = (x, y, direction)
                         pointer += 1
                         self.auth(command, direction, x, y, pointer)
                     elif command[pointer] == "B":
                         x, y, direction = self.moveBackward(direction, x, y)
-                        finalPosition = (x, y, direction)
                         pointer += 1
                         self.auth(command, direction, x, y, pointer)
                     elif command[pointer] == "L":
                         direction = self.rotateLeft(direction)
-                        finalPosition = (x, y, direction)
                         pointer += 1
                         self.auth(command, direction, x, y, pointer)
                     else:
                         direction = self.rotateRight(direction)
-                        finalPosition = (x, y, direction)
                         pointer += 1
                         self.auth(command, direction, x, y, pointer)
                 elif direction not in direc:
                     error = "Sorry, direction not found: " + direction 
+                    break 
                 else:
                     error = "Sorry, command not found: " + command[pointer]
+                    break 
 
         if error:
             return error
         else:
+            finalPosition = self.checkEdges(self.grid, x, y, direction)
             return finalPosition
     
          
@@ -125,4 +135,4 @@ class plutoRover:
         return self.auth(command, currentDir, x, y, 0)
             
 
-print(plutoRover([0, 0, "N"], "FFRFF", [100, 100]).main())
+print(plutoRover([0, 0, "N"], "BBLFF", [100, 100]).main())

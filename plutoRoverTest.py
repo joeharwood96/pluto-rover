@@ -28,5 +28,8 @@ class TestPlutoRover(unittest.TestCase):
     def test_multiple_commands(self):
         self.assertEqual(plutoRover([0, 0, "N"], "FFRFF", [100, 100]).main(), (2, 2, 'E'))
 
+    def test_edge_pluto(self):
+        self.assertEqual(plutoRover([0, 0, "N"], "BBLFF", [100, 100]).main(), (98, 98, 'W'))
+        
 if __name__ == '__main__':
     unittest.main()
