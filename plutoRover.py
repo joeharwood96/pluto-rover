@@ -57,7 +57,7 @@ class plutoRover:
     # def checkEdges(self, grid, finalPosition):
 
 
-    def auth(self, command, direction, x, y):
+    def auth(self, command, direction, x, y, pointer):
         direc = {
             "N",
             "S",
@@ -73,25 +73,35 @@ class plutoRover:
         }
 
         error = ""
+        finalPosition = ()
 
-        if direction is not None and command is not None:
-            if direction in direc and command in com:
-                if command == "F":
-                    x, y, direction =  self.moveForward(direction, x, y)
-                    finalPosition = (x, y, direction)
-                elif command == "B":
-                    x, y, direction = self.moveBackward(direction, x, y)
-                    finalPosition = (x, y, direction)
-                elif command == "L":
-                    direction = self.rotateLeft(direction)
-                    finalPosition = (x, y, direction)
+        while pointer < len(command):
+            if direction is not None and command is not None:
+                if direction in direc and command[pointer] in com:
+                    if command[pointer] == "F":
+                        x, y, direction =  self.moveForward(direction, x, y)
+                        finalPosition = (x, y, direction)
+                        pointer += 1
+                        self.auth(command, direction, x, y, pointer)
+                    elif command[pointer] == "B":
+                        x, y, direction = self.moveBackward(direction, x, y)
+                        finalPosition = (x, y, direction)
+                        pointer += 1
+                        self.auth(command, direction, x, y, pointer)
+                    elif command[pointer] == "L":
+                        direction = self.rotateLeft(direction)
+                        finalPosition = (x, y, direction)
+                        pointer += 1
+                        self.auth(command, direction, x, y, pointer)
+                    else:
+                        direction = self.rotateRight(direction)
+                        finalPosition = (x, y, direction)
+                        pointer += 1
+                        self.auth(command, direction, x, y, pointer)
+                elif direction not in direc:
+                    error = "Sorry, direction not found: " + direction 
                 else:
-                    direction = self.rotateRight(direction)
-                    finalPosition = (x, y, direction)
-            elif direction not in direc:
-                error = "Sorry, direction not found: " + direction 
-            else:
-                error = "Sorry, command not found: " + command
+                    error = "Sorry, command not found: " + command[pointer]
 
         if error:
             return error
@@ -110,7 +120,9 @@ class plutoRover:
         else:
             return print("No position found")
 
-        return self.auth(command, currentDir, x, y)
+        command = list(map(str, command))
+
+        return self.auth(command, currentDir, x, y, 0)
             
 
-print(plutoRover([0, 0, "U"], "F", [100, 100]).main())
+print(plutoRover([0, 0, "N"], "FFRFF", [100, 100]).main())
